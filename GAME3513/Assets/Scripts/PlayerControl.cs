@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
@@ -8,17 +8,19 @@ public class PlayerControl : MonoBehaviour
     public float impulseForce = 170000.0f;
     public float impulseTorque = 3000.0f;
 
-    public GameObject hero;
+    public GameObject player;
 
     Animator animController;
     Rigidbody rigidBody;
 
+    // Array of animations
+    private string[] kickAnimations = { "Kick1", "Kick2", "Kick3" };
+
     // Start is called before the first frame update
     void Start()
     {
-        // get references to the animation controller of hero
-        // character and player's corresponding rigid body
-        animController = hero.GetComponent<Animator>();
+        // Get references to the animation controller and player's corresponding rigid body
+        animController = player.GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
     }
 
@@ -28,12 +30,12 @@ public class PlayerControl : MonoBehaviour
         // W/A/S/D input as a combined rotation and movement vector
         Vector3 input = new Vector3(0, Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        // allow movement when input detected and not crouching
-        if (input.magnitude > 0.001 && !animController.GetBool("Crouch"))
+        // Allow movement when input detected and not crouching and not kicking
+        if (input.magnitude > 0.001f && !animController.GetBool("Crouch") && !animController.GetBool("Kick1") && !animController.GetBool("Kick2") && !animController.GetBool("Kick3"))
         {
-            // rotations are about y axis
+            // Rotations are about y axis
             rigidBody.AddRelativeTorque(new Vector3(0, input.y * impulseTorque * Time.deltaTime, 0));
-            // motion is forward/backward (about z axis)
+            // Motion is forward/backward (about z axis)
             rigidBody.AddRelativeForce(new Vector3(0, 0, input.z * impulseForce * Time.deltaTime));
 
             animController.SetBool("Walk", true);
@@ -41,15 +43,51 @@ public class PlayerControl : MonoBehaviour
         else
         {
             animController.SetBool("Walk", false);
-
-            // crouching with 'C' key (only when not moving)
-            if (Input.GetKey(KeyCode.C))
-                animController.SetBool("Crouch", true);
-            else
-                animController.SetBool("Crouch", false);
         }
 
+        // Kicking with 'Space' key
+        if (Input.GetKeyDown(KeyCode.Space) && !IsKicking())
+        {
+            PlayRandomKickAnimation();
+        }
 
+        // Crouching with 'C' key
+        if (Input.GetKey(KeyCode.C))
+        {
+            animController.SetBool("Crouch", true);
+        }
+        else
+        {
+            animController.SetBool("Crouch", false);
+        }
+    }
+
+    private void PlayRandomKickAnimation()
+    {
+        int randomIndex = Random.Range(0, kickAnimations.Length);
+        string triggerName = kickAnimations[randomIndex];
+
+        animController.SetTrigger(triggerName);
+
+        StartCoroutine(ResetKickAnimation(triggerName));
+    }
+
+    private IEnumerator ResetKickAnimation(string triggerName)
+    {
+        yield return new WaitForSeconds(1.0f);
+        animController.ResetTrigger(triggerName);
+    }
+
+    private bool IsKicking()
+    {
+        // Check if any of the kick animations are active
+        foreach (string kick in kickAnimations)
+        {
+            if (animController.GetCurrentAnimatorStateInfo(0).IsName(kick))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
-
