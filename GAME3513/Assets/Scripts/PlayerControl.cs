@@ -13,6 +13,10 @@ public class PlayerControl : MonoBehaviour
     Animator animController;
     Rigidbody rigidBody;
 
+    public float kickForce = 10f;
+    public Transform kickPoint;
+    public LayerMask kickableLayer;
+
     // Array of animations
     private string[] kickAnimations = { "Kick1", "Kick2", "Kick3" };
 
@@ -49,6 +53,7 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !IsKicking())
         {
             PlayRandomKickAnimation();
+            Kick();
         }
 
         // Crouching with 'C' key
@@ -59,6 +64,19 @@ public class PlayerControl : MonoBehaviour
         else
         {
             animController.SetBool("Crouch", false);
+        }
+    }
+
+    void Kick()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(kickPoint.position, transform.forward, out hit, 1.5f, kickableLayer))
+        {
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(transform.forward * kickForce, ForceMode.Impulse);
+            }
         }
     }
 
