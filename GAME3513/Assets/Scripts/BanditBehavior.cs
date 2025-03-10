@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Barrel : MonoBehaviour
+public class BanditBehavior : MonoBehaviour
 {
-    public GameObject explosionEffect;
-    public GameObject debrisPrefab;
+    public GameObject bandit;
+
+    Animator animController;
+    Rigidbody rigidBody;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        animController = bandit.GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -23,15 +27,13 @@ public class Barrel : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Explode();
+            Death();
         }
     }
 
-    void Explode()
+    void Death()
     {
-        Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        Instantiate(debrisPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        animController.SetBool("Die", true);
+        Destroy(gameObject, 3);
     }
-
 }

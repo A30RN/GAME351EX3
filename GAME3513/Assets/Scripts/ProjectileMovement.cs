@@ -30,4 +30,11 @@ public class ProjectileMovement : MonoBehaviour
     {
         velocity = newVelocity;
     }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bandit"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }
