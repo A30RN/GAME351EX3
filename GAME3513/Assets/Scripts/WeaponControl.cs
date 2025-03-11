@@ -46,6 +46,7 @@ public class WeaponControl : MonoBehaviour
         {
             FireProjectile();
             StartCoroutine(FireCooldown());
+            FindObjectOfType<AudioManager>().PlayFight();
         }
     }
 
