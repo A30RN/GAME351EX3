@@ -1,0 +1,13 @@
+- Developers: Winter Nenon, Jonathan Alvarez, Andon Rojas, Nomar Vazquez
+- Installation procedure: unzip files and copy them into project directory, load the western town scene that is in Assets/Assets/Scenes directory.
+- External Assets/Sources:
+-   https://assetstore.unity.com/packages/3d/environments/free-low-poly-desert-pack-106709
+-   https://assetstore.unity.com/packages/2d/textures-materials/nature/handpainted-grass-ground-textures-187634
+-   https://youtu.be/SrWrUN56UWU?si=C2pOJOyNhtIqo4Yz
+-   https://youtu.be/H0jUEuPENKI?si=CzQFfiA8qGmQrAnF
+- Implemented a custscene before gameplay actually begins
+- Playable character is able to kick enemy characters with "Spacebar"
+- Playable character is able to shoot at enemy characters with 'F'
+- Our game implemented a back soundtrack to accompany the wild west theme
+- Player's camera should be toggleable with 'T'
+- Implemented Lightning and Rain falling around the character. 
