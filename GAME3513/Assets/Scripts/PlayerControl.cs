@@ -20,12 +20,15 @@ public class PlayerControl : MonoBehaviour
     // Array of animations
     private string[] kickAnimations = { "Kick1", "Kick2", "Kick3" };
 
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
         // Get references to the animation controller and player's corresponding rigid body
         animController = player.GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -84,6 +87,7 @@ public class PlayerControl : MonoBehaviour
     {
         int randomIndex = Random.Range(0, kickAnimations.Length);
         string triggerName = kickAnimations[randomIndex];
+        audioManager.PlayKick();
 
         animController.SetTrigger(triggerName);
 

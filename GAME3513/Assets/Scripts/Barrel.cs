@@ -7,10 +7,12 @@ public class Barrel : MonoBehaviour
     public GameObject explosionEffect;
     public GameObject debrisPrefab;
 
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -24,6 +26,7 @@ public class Barrel : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
             Explode();
+            audioManager.PlayExplosion();
         }
     }
 

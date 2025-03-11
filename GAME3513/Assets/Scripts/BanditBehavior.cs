@@ -9,12 +9,14 @@ public class BanditBehavior : MonoBehaviour
     Animator animController;
     Rigidbody rigidBody;
 
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
         animController = bandit.GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -28,6 +30,7 @@ public class BanditBehavior : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
             Death();
+            audioManager.PlayDeath();
         }
     }
 

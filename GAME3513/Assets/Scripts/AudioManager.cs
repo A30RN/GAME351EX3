@@ -14,13 +14,18 @@ public class AudioManager : MonoBehaviour
     public AudioSource gunshotSound;
     public AudioSource explosionSound;
     public AudioSource windAmbience;
-    public AudioSource banditTaunts;
-
-    private AudioSource currentTrack;
+    public AudioSource banditDeath;
+    public AudioSource kicks;
 
     void Start()
     {
         PlayDefault();
+
+        footstepSound.enabled = false;
+        gunshotSound.enabled = false;
+        explosionSound.enabled = false;
+        windAmbience.enabled = false;
+        banditDeath.enabled = false;
     }
 
     public void PlayDefault()
@@ -42,5 +47,79 @@ public class AudioManager : MonoBehaviour
         defaultTrack.enabled = false;
         suspenseTrack.enabled = false;
         fightTrack.enabled = true;
+    }
+
+    //Audio clips
+
+    public void PlayFootStep()
+    {
+        footstepSound.Play();
+
+        footstepSound.enabled = true;
+        gunshotSound.enabled = false;
+        explosionSound.enabled = false;
+        windAmbience.enabled = false;
+        banditDeath.enabled = false;
+        kicks.enabled = false;
+    }
+
+    public void PlayGunShot()
+    {
+        gunshotSound.Play();
+
+        footstepSound.enabled = false;
+        gunshotSound.enabled = true;
+        explosionSound.enabled = false;
+        windAmbience.enabled = false;
+        banditDeath.enabled = false;
+        kicks.enabled = false;
+    }
+
+    public void PlayExplosion()
+    {
+        explosionSound.Play();
+
+        footstepSound.enabled = false;
+        gunshotSound.enabled = false;
+        explosionSound.enabled = true;
+        windAmbience.enabled = false;
+        banditDeath.enabled = false;
+        kicks.enabled = false;
+    }
+
+    public void PlayWind()
+    {
+        windAmbience.Play();
+
+        footstepSound.enabled = false;
+        gunshotSound.enabled = false;
+        explosionSound.enabled = false;
+        windAmbience.enabled = true;
+        banditDeath.enabled = false;
+        kicks.enabled = false;
+    }
+
+    public void PlayDeath()
+    {
+        banditDeath.Play();
+
+        footstepSound.enabled = false;
+        gunshotSound.enabled = false;
+        explosionSound.enabled = false;
+        windAmbience.enabled = false;
+        banditDeath.enabled = true;
+        kicks.enabled = false;
+    }
+
+    public void PlayKick()
+    {
+        kicks.Play();
+
+        footstepSound.enabled = false;
+        gunshotSound.enabled = false;
+        explosionSound.enabled = false;
+        windAmbience.enabled = false;
+        banditDeath.enabled = false;
+        kicks.enabled = true;
     }
 }
